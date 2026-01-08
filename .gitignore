@@ -1,1 +1,8 @@
 venv/
+venv/
+__pycache__/
+*.log
+output.xml
+report.html
+log.html
+.socat.pid
