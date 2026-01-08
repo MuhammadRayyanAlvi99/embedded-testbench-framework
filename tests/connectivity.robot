@@ -9,10 +9,6 @@ ${CAN_CHAN}      vcan0
 ${UDP_IP}        127.0.0.1
 ${UDP_PORT}      5005
 
-*** Keywords ***
-Reset System State
-    Uart Send Command    ${UART_PORT}    GET_STATUS
-
 *** Test Cases ***
 Verify UART Control Path
     [Documentation]    Test if UART responds to status queries.
@@ -27,6 +23,13 @@ Verify Ethernet UDP Heartbeat
 
 Verify CAN Telemetry Impact On System
     [Documentation]    Send CAN frame and verify internal state change via UART.
-    Can Send Telemetry      ${CAN_CHAN}    0x123    DEADBEEF
+    Can Send Telemetry           ${CAN_CHAN}    0x123    DEADBEEF
+    Wait Until Keyword Succeeds  2s  200ms  Check System Busy
+
+*** Keywords ***
+Reset System State
+    Uart Send Command    ${UART_PORT}    GET_STATUS
+
+Check System Busy
     Uart Send Command       ${UART_PORT}    GET_STATUS
     Uart Expect Response    ${UART_PORT}    STATUS:BUSY_RX

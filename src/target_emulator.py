@@ -34,7 +34,7 @@ class TargetEmulator:
         try:
             with can.Bus(interface="socketcan", channel=CAN_CH) as bus:
                 while self.running:
-                    msg = bus.recv(timeout=1.0)
+                    msg = bus.recv(timeout=0.1) # Non-blocking with timeout
                     if msg:
                         self.system_status = "BUSY_RX"
         except Exception as e:
