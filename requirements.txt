@@ -1,3 +1,4 @@
 robotframework
 python-can
 pyserial
+ruff
